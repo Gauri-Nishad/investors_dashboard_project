@@ -1,0 +1,258 @@
+{% extends "base.html" %} {% block title %} cash flow reports{% endblock title%} 
+{% block content %}
+
+<div class="container content-wrapper" style="margin-top: 6%">
+  <div class="container heading-of-repots">
+    <div class="text-center" style="margin-bottom: 20px">
+      <h3>Cash Flow Reports</h3>
+    </div>
+    <form>
+      {% csrf_token %}
+      <div class="row">
+        <div
+          class="col-4"
+          style="padding-top: 10px; padding-right: 0px; display: inline-block"
+        >
+          <label for="date">From Date:</label>
+          <input
+            type="text"
+            id="datepicker-from"
+            name="date"
+            placeholder="From"
+          />
+          <div>
+            <span
+              style="margin-left: 110px"
+              class="messages"
+              id="dateMessage"
+            ></span>
+          </div>
+        </div>
+        <div
+          class="col-4"
+          style="padding-top: 10px; padding-right: 0px; padding-left: 0px"
+        >
+          <label for="date">To Date:</label>
+          <input type="text" id="datepicker-to" name="date" placeholder="To" />
+          <div>
+            <span
+              style="margin-left: 110px"
+              class="messages"
+              id="dateMessage1"
+            ></span>
+          </div>
+        </div>
+        <div
+          class="col-3"
+          style="padding-top: 5px; padding-right: 0px; padding-left: 0px"
+        >
+          <label for=" ">Company:</label>
+          <select id="company_select" style="width:60%">
+            <option value="">Select Company</option>
+            <option value="All">All</option>
+            {% for company in companies %}
+            <option value="{{company.id}}">{{company.company_name}}</option>
+            {% endfor %}
+          </select>
+          <div>
+            <span
+              style="margin-left: 70px"
+              class="messages"
+              id="companyMessage"
+            ></span>
+          </div>
+        </div>
+        <div class="col-1" style="padding: 0px">
+          <button type="button" class="btn-success go-button">Go</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  {% comment %} <div class="allaccordians">
+    <div class="container accordion" onclick="toggleAccordion(this);">
+      <div class="row">
+        <div class="col-5">
+          <span class="plus-minus">
+            <span class="icon plus"></span>
+          </span>
+
+          <div style="margin-left: 20px; margin-bottom: 0px">
+            Company: <span class="company-name"></span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div>Total Inflow: <span id="total-inflow"></span></div>
+        </div>
+        <div class="col-3">
+          <div>Total Outflow: <span id="total-outflow"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h5 style="font-weight: bold">Inflow:</h5>
+
+      <table id="inflow-data">
+        <thead style="background-color: #c1aad3">
+          <tr>
+            <th>Investor</th>
+            <th>To Company</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <h5 style="font-weight: bold">Outflow:</h5>
+      <table id="outflow-data">
+        <thead style="background-color: #c1aad3">
+          <tr>
+            <th>From Company</th>
+            <th>To Company</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+  <div>
+    <p id="message" style="text-align: center"></p>
+ </div>
+</div> {% endcomment %}
+
+<div id="accordionExample">
+  <div>
+    <p id="message" style="text-align: center"></p>
+  </div>
+<div class="accordion accordion-flush" id="accordionFlushExample">
+  {% comment %} <div class="accordion-item" style="margin-bottom:5px;">
+    <div style="background-color:#9075a4;
+    color: white;">
+    <h2 class="accordion-header" id="flush-headingOne">
+      <div class="accordion-button collapsed"  data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"  aria-controls="flush-collapseOne" aria-expanded="true" style="padding:0px;">
+        <div style="display:flex; justify-content:space-between;background-color:#9075a4;color:white; height:50px; padding-top:13px; font-weight:bold; padding-left:10px; cursor:pointer;">  
+         
+          <div class="col-4">
+             
+              Company 
+            </div>
+           
+          <div class="col-4">
+             Total Inflow: 
+          </div>
+          <div class="col-4">
+           Total Outflow:
+          </div>
+        </div>
+      </div>
+    </h2>
+  </div>
+    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">
+       
+          <h5 style="font-weight:bold">Inflow:</h5>
+    
+          <table id="inflow-data">
+            <thead style="background-color: #c1aad3">
+              <tr>
+                <th>Investor</th>
+                <th>To Company</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+    
+          <h5 style="font-weight: bold">Outflow:</h5>
+          <table id="outflow-data">
+            <thead style="background-color: #c1aad3">
+              <tr>
+                <th>From Company</th>
+                <th>To Company</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      
+    </div>
+  </div>
+  <div class="accordion-item"  style="margin-bottom:5px">
+    <div style="background-color:#9075a4;
+    color:white;">
+    <h2 class="accordion-header" id="flush-headingTwo">
+      <div class="accordion-button collapsed"  data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo" style="padding:0px;">
+        <div style="display:flex; justify-content:space-between;background-color:#9075a4;color:white; height:50px; padding-top:13px; font-weight:bold; padding-left:10px; cursor:pointer;">  
+          <span class="plus-minus">
+            <span class="icon plus"></span>
+          </span> 
+          <div class="col-4">
+             
+              Company 
+            </div>
+           
+          <div class="col-4">
+             Total Inflow: 
+          </div>
+          <div class="col-4">
+           Total Outflow:
+          </div>
+        </div>
+      </div>
+    </h2>
+  </div>
+    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">
+        
+          <h5 style="font-weight: bold">Inflow:</h5>
+    
+          <table id="inflow-data">
+            <thead style="background-color: #c1aad3">
+              <tr>
+                <th>Investor</th>
+                <th>To Company</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+    
+          <h5 style="font-weight: bold">Outflow:</h5>
+          <table id="outflow-data">
+            <thead style="background-color: #c1aad3">
+              <tr>
+                <th>From Company</th>
+                <th>To Company</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        
+      </div>
+    </div>
+  </div> {% endcomment %}
+</div>
+
+</div>
+  
+
+
+
+
+{% endblock %}

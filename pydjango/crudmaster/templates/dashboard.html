@@ -1,0 +1,484 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock title %}
+   
+ 
+ 
+    {% block content %}
+    
+    <div class="container content-wrapper">
+        {% comment %} {% if request.session.role == 'User' %}
+        <div class="alert alert-danger" role="alert">
+            You do not have permission to access this page.
+        </div>
+    {% endif %} {% endcomment %}
+   
+    <div class="" style="display:flex; justify-content:space-between; ">
+        
+            <div class="navigation-box1 col-3" data-toggle="tooltip" data-placement="top"  title="See Users List">
+                <div class="total-user-icon ">
+                    <div class="">
+                        <i class="fa fa-users icon" aria-hidden="true"></i>
+                    </div>
+
+                    <div class="">
+                        <div class="column">
+                                <h4 class=total-user-text>Total Users</h4>
+                                <h4 class="total-user-text">{{ total_users }}</h4>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="col total-user-icon1">
+                <a href="{% url 'crudapp:user_list' %}"  class="View-navigation-box text-center point">
+                    View all <i class="fa fa-arrow-circle-right view-all" aria-hidden="true"></i>
+                </a>
+            </div>
+
+            </div>
+           
+            <div class="navigation-box2 col-3" data-toggle="tooltip" data-placement="top"  title="See Investors List">
+                <div class="total-user-icon ">
+                    <div class="">
+                        <ion-icon name="person-outline" class="icon"  ></ion-icon>
+                    </div>
+
+                    <div class="">
+                        <div class="column">
+                                <h4  class="total-user-text">Total Investors</h4>
+                                <h4 class="total-user-text">{{total_investor}}</h4>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="col total-user-icon1">
+                <a href="{% url 'crudapp:investers_list' %}" class="View-navigation-box text-center point">
+                    View all <i class="fa fa-arrow-circle-right view-all" aria-hidden="true"></i>
+                </a>
+            </div>
+
+            </div>
+           
+            <div class="navigation-box3 col-3" data-toggle="tooltip" data-placement="top"  title="See Company List">
+                <div class="total-user-icon ">
+                    <div class="">
+                        <i class="fa-solid fa-building icon"></i> 
+                    </div>
+
+                    <div class="">
+                        <div class="column">
+                                <h4 class="total-user-text">Company</h4>
+                                <h4 class="total-user-text">{{total_company}}</h4>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="col total-user-icon1">
+                <a href="{% url 'crudapp:company_list' %}" class="View-navigation-box text-center point">
+                    View all <i class="fa fa-arrow-circle-right view-all" aria-hidden="true"></i>
+                </a>
+            </div>
+
+            </div>
+           
+            <div class="navigation-box4 col-3" data-toggle="tooltip" data-placement="top"  title="Allow Permissions">
+                <div class="add-cash-div">
+                    <div class="">
+                        <i class="fa fa-users icon" aria-hidden="true"></i>
+                    </div>
+
+                    <div class="">
+                        <div class="">
+                                <h4 class="total-user-text">Allow Permissions</h4>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="col total-user-icon1">
+                    <a href="{% url 'crudapp:permission' %}" class="View-navigation-box text-center point">
+                        Allow <i class="fa fa-arrow-circle-right view-all" aria-hidden="true"></i>
+                    </a>
+            </div>
+
+            </div>
+        </div>
+
+        
+       
+       
+ 
+  
+   
+
+
+ 
+ 
+       
+      
+
+
+
+
+
+
+<div class="bottom-divs"  style="display:flex; justify-content:space-between;">
+
+  <div class="navigation-box5 " data-toggle="tooltip" data-placement="top"  title="Cash In Flow">
+    <div class="permission-yellow-icon">
+        <div class="">
+           
+            <i class="fa-solid fa-wallet  icon"></i>
+        </div>
+
+        <div class="">
+            <div class="column">
+                    <h4 class=total-user-text> Cash In Flow</h4>
+                     
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="col total-user-icon1">
+   
+    <a  href=" "  data-bs-toggle="modal" data-bs-target="#cash_in_flow"  class="View-navigation-box text-center point">
+        Add <i class="fa fa-arrow-circle-right view-all" aria-hidden="true"></i>
+    </a>
+</div>
+
+</div>
+
+
+<div class="navigation-box6 " data-toggle="tooltip" data-placement="top"  title=" Cash-In Transactions">
+    <div class="approve-transaction-icon">
+        <div class="">
+            
+            <i class="fa fa-exchange" aria-hidden="true" ></i>
+        </div>
+
+        <div class="">
+            <div class="column">
+                    <h4 class=total-user-text> Cash-In Transactions</h4>
+                     
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="col total-user-icon1">
+    <a href="{% url 'crudapp:inflow_transaction_list' %}" class="View-navigation-box text-center point">
+        Allow <i class="fa fa-arrow-circle-right view-all" aria-hidden="true"></i>
+    </a>
+</div>
+
+</div>
+ 
+
+<div class="navigation-box7 col-3" data-toggle="tooltip" data-placement="top"  title="Cash Out Flow">
+    <div class="add-cash-div">
+        <div class="">
+            <i class="fa-solid fa-wallet  icon"></i>
+        </div>
+
+        <div class="">
+            <div class="">
+                    <h4 class="total-user-text">Cash Out Flow</h4>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="col total-user-icon1">
+    <a  href=" "  data-bs-toggle="modal" data-bs-target="#cash_out_flow"  class="View-navigation-box text-center point">
+        Add <i class="fa fa-arrow-circle-right view-all" aria-hidden="true"></i>
+    </a>
+</div>
+
+</div>
+
+
+
+
+<div class="navigation-box8 col-3" data-toggle="tooltip" data-placement="top"  title="Cash Out Transactions">
+    <div class="add-cash-div">
+        <div class="">
+            <i class="fa fa-exchange" aria-hidden="true" ></i>
+        </div>
+
+        <div class="">
+            <div class="">
+                    <h4 class="total-user-text">Cash-Out Transactions</h4>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="col total-user-icon1">
+        <a href="{% url 'crudapp:outflow_transaction_list' %}" class="View-navigation-box text-center point">
+            Allow <i class="fa fa-arrow-circle-right view-all" aria-hidden="true"></i>
+        </a>
+</div>
+
+
+
+</div>
+</div>
+
+
+ 
+ <div class="row graphs">
+
+<div class="col-6 can-container1">
+    <h3>Cash Inflow</h3>
+    <canvas id="my-Chart1"></canvas>
+  </div>
+
+  <div class="col-6 can-container2">
+    <h3>Cash Outflow</h3>
+    <canvas id="my-Chart2"></canvas>
+  </div>
+</div>
+ 
+</div>  {% comment %} containerwrapperdiv close {% endcomment %}
+
+    <div class="modal fade" id="cash_out_flow" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+            <h2 class="modal-title" id="exampleModalLabe2">Cash Out Flow</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        
+            <div class="modal-body">
+               
+                <form action="#" method="POST" >
+                    <div class="row">
+                    <div class="add-form col-6">
+                        <label for="">Company:</label>
+                        <select id="company1" name="company"  >
+                            <option >Select Company</option>
+                            {% for company in companies  %}
+                            <option value="{{company.id}}"> {{company.company_name}}</option>
+                            {% endfor %}
+                            
+                        </select>
+                        <span  class="messages" id="companyMessage1"></span> 
+                    </div>
+                   
+                    <div class="add-form col-6">
+                        <label for=" ">To Company(optional):</label>
+                        <select id="company2" name="to_company"  >
+                            <option>Select Company</option>
+                            {% for company in companies  %}
+                            <option value="{{company.id}}">{{company.company_name}}</option>
+                            {% endfor %}
+                             
+                        </select>
+                    </div>
+                    <div class="add-form col-6">
+                        <label for="date">Date:</label>
+                        <input type="" class="date1" id="datepicker-to" name="date" placeholder="Select Date"  >
+                        <span  class="messages" id="dateMessage1"></span> 
+
+                    </div>
+                       
+                   
+                   
+                    <div class="add-form col-6" style="padding-bottom:10px;">
+                        <label for="amount">Amount:</label>
+                        <input type="number" id="amount1" name="amount" placeholder="Enter Amount">
+                        <span  class="messages" id="amountMessage1"></span> 
+                    </div>
+                    <div class="add-form col">
+                        <label for="role">Description:</label>
+                        <textarea id="description1" name="description" placeholder="Enter reason" ></textarea>
+                        <span  class="messages" id="descriptionMessage1"></span> 
+                    </div>
+                    
+                </div>
+                    
+                    <div class="modal-footer" style="justify-content:center;">
+                        <button type="button" class="btn  close-button" data-bs-dismiss="modal">Close</button>
+                        <div class="add-form">
+                          <button type="submit" onclick="return submitoutflowform();" id="add-cashout" class="btn">Add</button>
+                      </div>
+                      </div>
+                </form>
+           
+        </div>
+
+       
+      </div>
+    </div>
+  </div>
+    
+    
+
+
+  <div class="modal fade" id="cash_in_flow" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+            <h2 class="modal-title" id="exampleModalLabe2">Cash In Flow</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        
+            <div class="modal-body">
+               
+                <form action="#" method="POST" >
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="add-form col-6">
+                            <label for=" ">Investor:</label>
+                            <select id="investor" name="investor"  >
+                                <option  >Select Investor</option>
+                                {% for investor in investors %}
+                                <option value="{{investor.id}}">{{investor.first_name}}</option>
+                                {% endfor %}
+                            </select>
+                            <span  class="messages" id="investorMessage"></span> 
+                        </div>
+                   
+                    <div class="add-form col-6">
+                        <label for=" ">To Company:</label>
+                        <select id="company" name="to_company">
+                            <option >Select Company</option>
+                            {% for company in companies  %}
+                            <option value="{{company.id}}">{{company.company_name}}</option>
+                            {% endfor %}
+                        </select>
+                        <span  class="messages" id="companyMessage"></span> 
+                    </div>
+                    <div class="add-form col-6">
+                        <label for="date">Date:</label>
+                        <input type="" class="date"   id="datepicker-from" name="date" placeholder="Select Date"  >
+                        <span  class="messages" id="dateMessage"></span> 
+
+                    </div>
+                        
+                   
+                    <div class="add-form col-6" style="padding-bottom:10px;">
+                        <label for="amount">Amount:</label>
+                        <input type="number" id="amount" name="amount" placeholder="Enter Amount"  >
+                        <span  class="messages" id="amountMessage"></span> 
+                    </div>
+                    <div class="add-form col">
+                        <label for="role">Description:</label>
+                        <textarea id="description" name="description" placeholder="Enter reason"  ></textarea>
+                        <span  class="messages" id="descriptionMessage"></span> 
+                    </div>
+                    
+                </div>
+                    
+                    <div class="modal-footer" style="justify-content:center;">
+                        <button type="button" class="btn  close-button" data-bs-dismiss="modal">Close</button>
+                        <div class="add-form">
+                          <button type="submit"onclick="return submitinflowform();" id="add-cashin" class="btn">Add</button>
+                      </div>
+                      </div>
+                </form>
+           
+        </div>
+
+       
+      </div>
+    </div>
+  </div>
+  
+    
+  
+  <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:end; margin-right:10px; margin-top:10px;">
+              
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding:0px 0px 10px 0px;">
+                <p class="text-green text-center" style="font-size:20px;font-wieght:500px;"
+                 id="successMessage"></p>
+            </div>
+
+            
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+  var ctx1 = document.getElementById('my-Chart1');
+  var colors = [
+  'rgba(255, 99, 132, 0.6)',    
+  'rgba(54, 162, 235, 0.6)',    
+  'rgba(255, 206, 86, 0.6)',   
+  'rgba(75, 192, 192, 0.6)',   
+  
+];
+var inflowData = {};
+
+  {% for approved in approved_inflows %}
+    var companyName = '{{ approved.to_company }}';
+    var amount = {{ approved.amount }};
+    if (!inflowData[companyName]) {
+      inflowData[companyName] = 0;
+    }
+    inflowData[companyName] += amount;
+  {% endfor %}
+  console.log('sswsdddd',inflowData)
+
+  new Chart(ctx1, {
+    type: 'bar',
+    data: {
+      labels: Object.keys(inflowData),
+      datasets: [{
+        label: 'Total Amount',
+        data: Object.values(inflowData),
+        backgroundColor: colors,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  var outflowData = {};
+  {% for approved in approved_outflows %}
+    var companyName = '{{ approved.company }}';
+    var amount = {{ approved.amount }};
+    if (!outflowData[companyName]) {
+      outflowData[companyName] = 0;
+    }
+    outflowData[companyName] += amount;
+  {% endfor %}
+
+
+  var ctx2 = document.getElementById('my-Chart2');
+
+  new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: Object.keys(outflowData),
+      datasets: [{
+        label: 'Total Amount',
+        data: Object.values(outflowData),
+        backgroundColor: colors,
+        borderWidth: 1
+        
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+</script>
+ 
+
+    {% endblock %}

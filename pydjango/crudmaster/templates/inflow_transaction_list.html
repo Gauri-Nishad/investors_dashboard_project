@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+{% block title %}Transaction Inflow{% endblock title %}
+   
+ 
+ 
+    {% block content %}
+
+    
+   
+         
+    {% csrf_token %}
+    <div class="container content-wrapper">
+        <div class="permission-tables">
+            
+
+            <div class="row">
+              <div class="col" style="display:flex; justify-content:start;  ">
+                <h2>Cash Inflow Transaction List</h2> </div>
+               <div class="col">
+            <a href=" "   data-bs-toggle="modal" data-bs-target="#cash_in_flow"    class="add-button"   data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-plus p-icon"></i> Add</a> </div>
+            </div>
+             
+
+            <div class="table-responsive">
+            <table class="tables table-hover" >
+                <thead class="headtext1">
+                    <tr>
+                        <th class="text-center">Invester</th>
+                        <th class="text-center" >To Company</th>
+                        <th class="text-center" >Date</th>
+                        <th class="text-center" >Description</th>
+                        <th class="text-center">Amount</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                    <tr>
+                        
+                        {% for inflow in inflow_transactions  %}
+                        <td class="text-center">
+                           {{inflow.investor}}
+                        </td>
+                        <td class="text-center">
+                           {{inflow.to_company}}
+                        </td>
+                        <td class="text-center">
+                            {{inflow.date}}
+                        </td>
+                        <td class="text-center">
+                           {{inflow.description}}
+                        </td>
+                        <td class="text-center">
+                          {{inflow.amount}}
+                        </td>
+                        
+                        <td class="text-center" id="status_{{inflow.id}}">
+                                           
+                    
+                         {% if inflow.status %}
+                         {{ inflow.status }}
+                         {% else %}
+                         <span class="status-placeholder"></span>
+                         <a href=" " onclick="setInflowId({{inflow.id}})" data-bs-toggle="modal" data-bs-target="#approve" data-toggle="tooltip" data-placement="top" title="Approve" id="approve_tn_cashin"> <i class="fa-solid fa-square-check check-icon "  ></i></a>
+
+
+                            
+                         <a href=" " onclick="setInflowId({{inflow.id}})" data-bs-toggle="modal"  data-bs-target="#reject"    data-toggle="tooltip" data-placement="top" title="Reject" id="reject_tn_cashin"> <i class="fa-solid fa-square-xmark cross-icon"  ></i>  </a>                  
+                    
+                         {% endif %}
+                    </td>
+                 
+                        
+                      
+                        
+                    </tr>
+
+                   
+                    {% endfor %}
+                  
+                   
+                   
+                </tbody>
+            </table>
+
+            
+        </div>  
+    </div>
+</div>
+
+ 
+
+
+{% comment %} modal {% endcomment %}
+
+
+
+  <div class="modal fade" id="cash_in_flow" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+            <h2 class="modal-title" id="exampleModalLabe2">Cash In Flow</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        
+            <div class="modal-body">
+              <h5  class="msg text-center" id="msg"> </h5>
+                <form action="#" method="POST" >
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="add-form col-6">
+                            <label for=" ">Investor:</label>
+                            <select id="investor" name="investor"  >
+                                <option  >Select Investor</option>
+                                {% for investor in investors %}
+                                <option value="{{investor.id}}">{{investor.first_name}}</option>
+                                {% endfor %}
+                            </select>
+                            <span  class="messages" id="investorMessage"></span> 
+                        </div>
+                   
+                    <div class="add-form col-6">
+                        <label for=" ">To Company:</label>
+                        <select id="company" name="to_company">
+                            <option >Select Company</option>
+                            {% for company in companies  %}
+                            <option value="{{company.id}}">{{company.company_name}}</option>
+                            {% endfor %}
+                        </select>
+                        <span  class="messages" id="companyMessage"></span> 
+                    </div>
+                    <div class="add-form col-6">
+                        <label for="date">Date:</label>
+                        <input type="" class="date"   id="datepicker-from" name="date" placeholder="Select Date"  >
+                        <span  class="messages" id="dateMessage"></span> 
+
+                    </div>
+                        
+                   
+                    <div class="add-form col-6" style="padding-bottom:10px;">
+                        <label for="amount">Amount:</label>
+                        <input type="number" id="amount" name="amount" placeholder="Enter Amount"  >
+                        <span  class="messages" id="amountMessage"></span> 
+                    </div>
+                    <div class="add-form col">
+                        <label for="role">Description:</label>
+                        <textarea id="description" name="description" placeholder="Enter reason"  ></textarea>
+                        <span  class="messages" id="descriptionMessage"></span> 
+                    </div>
+                    
+                </div>
+                    
+                    <div class="modal-footer" style="justify-content:center;">
+                        <button type="button" class="btn  close-button" data-bs-dismiss="modal">Close</button>
+                        <div class="add-form">
+                          <button type="submit"onclick="return submitinflowform();" id="add-cashin" class="btn">Add</button>
+                      </div>
+                      </div>
+                </form>
+           
+        </div>
+
+       
+      </div>
+    </div>
+  </div>
+  
+    
+   
+
+
+{% comment %} modal {% endcomment %}
+
+
+
+
+
+
+
+<div class="modal fade" id="approve" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+          <div class="modal-body" style="padding:10px 0px 0px 0px;">
+             
+          <p  style="text-align:center;">Are you sure you want to approve this transaction</p>
+          <div class="modal-footer" style="padding:0px; justify-content:center;"> 
+              <button type="button" class="btn  close-button" data-bs-dismiss="modal">Close</button>
+              <div class="add-form">
+                <button type="submit" class="btn yes-button">Yes</button>
+            </div>
+            </div>
+      </div>
+
+     
+    </div>
+  </div>
+</div>
+
+
+{% comment %} modal {% endcomment %}
+
+<div class="modal fade" id="reject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        
+            <div class="modal-body" style="padding:10px 0px 0px 0px;">
+               
+            <p  style="text-align:center;">Are you sure you want to Reject this transaction</p>
+            <div class="modal-footer" style="padding:0px;justify-content:center">
+                <button type="button" class="btn close-button" data-bs-dismiss="modal">Close</button>
+                <div class="add-form">
+                  <button type="submit" class="btn yes-button">Yes</button>
+              </div>
+              </div>
+        </div>
+
+       
+      </div>
+    </div>
+  </div>
+
+
+
+   
+  <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div style="display:flex; justify-content:end; margin-right:10px; margin-top:10px;">
+                
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding:0px 0px 10px 0px;">
+                <p class="text-green text-center" style="font-size:20px;font-wieght:500px;"
+                 id="successMessage"></p>
+            </div>
+
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}

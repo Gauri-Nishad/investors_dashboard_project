@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Allow Permissions{% endblock title %}
+   
+ 
+ 
+    {% block content %}
+
+    
+    <form method="POST">
+         
+    {% csrf_token %}
+    <div class="container content-wrapper">
+        <div class="permission-tables">
+           
+            <div>
+              <div class="role-options">
+                <div> <h4 >Permissions</h4></div>
+                <select id="role" name="role">
+                    <option>Select Role</option>
+                     
+                    {% for role in rolelist %}
+                    <option value="{{role.id}}" >{{role.name}}</option>
+                    {% endfor %}
+                    
+                 </select>
+                </div> 
+               
+
+             
+           
+            </div>
+
+        <div>
+            <table>
+                <thead class="headtext1">
+                    <tr>
+                        <th class="text-center" style="width:5%;">Item</th>
+                        <th class="text-center"  style="width:10%;">Description</th>
+                        <th class="text-center"  style="width:5%;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                    {% for menu in menu_list %}
+                    <tr>
+                        {% if menu.parentID == 0 %}
+                        <td>{{menu.menuItem}}</td>
+                        <td>
+                            <table class="table">
+                                <thead class="headtext1">
+                                    <tr>
+                                        <th>Sub-Menu</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for m in menu_list %}
+                                    {% if m.parentID == menu.id %}
+                                    
+                                    <tr>
+                                        <td>{{m.menuItem}}</td>
+                                        <td class="text-center">
+                                        <input type="checkbox" id="check{{m.id}}" class="mainclass  {{m.parentID}}" onchange="handleCheckbox1('{{m.id}}', '{{menu.id}}')" name="checklist" value="{{m.id}}"></td>
+
+                                         
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </td>
+                        <td class="text-center"><input type="checkbox" id="check{{menu.id}}" class="mainclass" onchange="handleCheckbox2('{{menu.id}}')" name="checklist" value="{{menu.id}}"></td>
+                        
+                        {% endif %}
+                        <div> <span class="messages" id="checkMessage"></span> </div>
+                    </tr>
+                    {% endfor %}
+                   
+                </tbody>
+            </table>
+
+            <div class="permissions-button">
+                <button class ="permission-submit-button"  onclick="return submitFunction1();" type="submit">Submit</button>
+            </div>
+        </div>  
+    </div>
+</div>
+
+</form>
+
+
+
+
+{% endblock %}

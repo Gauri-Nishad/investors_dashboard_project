@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+{% block title %} User List{% endblock title %}
+   
+ 
+ 
+    {% block content %}
+    <div class="container content-wrapper">
+        
+    <div class="tables-data">
+      
+     
+    
+      
+    <div class="row">
+      <div class="col" style="display:flex; justify-content:start;  ">
+        <h2>User List</h2> </div>
+       <div class="col">
+    <a href=" "   data-bs-toggle="modal" data-bs-target="#add_user"    class="add-button"   data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-plus p-icon"></i> Add User</a> </div>
+    </div>
+  
+
+    <div class="table-responsive">
+    <table  class="tables table-hover">
+        <thead>
+            <tr style="position:sticky;">
+                <th class="text-center" >Name</th>
+                <th class="text-center">Email</th>
+                <th class="text-center">Role</th>
+                <th class="text-center">Mobile Number</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+            <tr>
+                <td class="text-center">{{user.name}}</td>
+                <td class="text-center">{{user.email}}</td>
+                <td class="text-center">{{user.role}}</td>
+                <td class="text-center">{{user.mobile}}</td>
+                <div class="btns">
+                    <td class="text-center">
+                      
+                        <a href=" " onclick="setUserId({{ user.id }})" data-bs-toggle="modal" data-bs-target="#update_user"      class="edit-button btn bg-success"   data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
+        
+                      <a href="" onclick="setUserId({{ user.id }})" data-bs-toggle="modal" data-bs-target="#delete_user"  class="delete-button btn  bg-danger"  data-toggle="tooltip" data-placement="top" title="Delete" ><i class="fa fa-trash"></i> </td>
+                    </div>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="add_user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Add User</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+       
+            <div class="modal-body">
+              <h5  class="msg text-center" id="msg"> </h5>
+              {% comment %} <h5 class="text-success text-center"></h5> {% endcomment %}
+                <form action="#" method="POST" id="addUserForm">
+                
+                  {% csrf_token %}
+                    <div class="row">
+                    <div class="add-form col-6">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" class="txtOnly" placeholder="Enter Name"  >
+                        <span  class="messages" id="nameMessage"></span> 
+                    </div>
+                    <div class="add-form col-6">
+                        <label for="email">Email:</label>
+                        <input type="text" id="email" name="email"  placeholder="Enter Email"  >
+                        <span  class="messages" id="emailMessage"></span> 
+                    </div>
+                    <div class="add-form col-6">
+                        <label for="role">Role:</label>
+                        <select id="role" name="role">
+                    <option>Select Role</option>
+                    {% for role in rolelist %}
+                    <option value="{{role.id}}" >{{role.name}}</option>
+                    {% endfor %}
+                </select>
+                        <span  class="messages" id="roleMessage"></span> 
+                    </div>
+                    <div class="add-form col-6">
+                        <label for="mobile">Mobile Number:</label>
+                        <input type="number" id="mobile" oninput="truncateInputValue(this)" name="mobile" placeholder="Enter Mobile Number"  >
+                        <span  class="messages" id="mobileMessage"></span> 
+                    </div>
+                    <div class="add-form col-6">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" placeholder="Enter Password"  >
+                        <span  class="messages" id="passwordMessage"></span> 
+                    </div>
+                    <div class="modal-footer" style="justify-content:center;">
+                      <button type="button" class="btn close-button" data-bs-dismiss="modal">Close</button>
+                      <div class="add-form">
+                        <button  type="submit" class="btn  ">Add</button>
+                    </div>
+                    </div>
+        
+                </div>
+                </form>
+        </div>
+
+       
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div style="display:flex; justify-content:end; margin-right:10px; margin-top:10px;">
+              
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <div class="modal-body" style="padding:0px 0px 10px 0px;">
+              
+                <p class="text-green text-center" style="font-size:20px;font-wieght:500px;"
+                 id="successMessage"></p>
+            </div>
+
+             
+        </div>
+    </div>
+</div>
+
+
+  {% comment %} update page Modal {% endcomment %}
+
+
+  <div class="modal fade" id="update_user" tabindex="-1" aria-labelledby="exampleModalLabe2" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabe2">Update User</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+       
+            <div class="modal-body">
+              <h5  class="msg text-center" id="msg1"> </h5>
+                <form   method="POST" id="updateUserForm">
+               
+                  {% csrf_token %}
+                  
+                    <div class="row">
+                    <div class="add-form col-6">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name1" name="name" placeholder="Enter Name" class="txtOnly"   >
+                        <span  class="messages" id="nameMessage1"></span> 
+                    </div>
+                    <div class="add-form col-6">
+                        <label for="email">Email:</label>
+                        <input type="text" id="email1" name="email" placeholder="Enter Email" >
+                        <span  class="messages" id="emailMessage1"></span> 
+                    </div>
+                    <div class="add-form col-6">
+                        <label for="role">Role:</label>
+                        <select id="role1" name="role">
+                          <option>Select Role</option>
+                          {% for role in rolelist %}
+                          <option value="{{ role.id }}" {% if role.id == single_user.role %} selected {% endif %}>{{ role.name }}</option>
+                          {% endfor %}
+                      </select>
+                        <span  class="messages" id="roleMessage1"></span> 
+                    </div>
+                    <div class="add-form col-6">
+                        <label for="mobile">Mobile Number:</label>
+                        <input type="number" id="mobile1"  oninput="truncateInputValue(this)" name="mobile" placeholder="Enter Mobile Number"  >
+                        <span  class="messages" id="mobileMessage1"></span>
+                    </div>
+                     
+                    <div class="modal-footer" style="justify-content:center;">
+                      <button type="button" class="btn close-button" data-bs-dismiss="modal">Close</button>
+                      <div class="add-form">
+                        <button  onclick="return submituserupdate1();"   type="submit" id="update-button" class="btn ">Update</button>
+                    </div>
+                    </div>
+        
+                </div>
+                </form>
+            
+
+        </div>
+       
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="delete_user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        
+            <div class="modal-body">
+               
+            </p>Are you sure you want to delete this user</p>
+            <div class="modal-footer">
+                <button type="button" class="btn  close-button" data-bs-dismiss="modal">Close</button>
+                <div class="add-form">
+                  <button type="submit" class="btn yes-button">Yes</button>
+              </div>
+              </div>
+        </div>
+  
+       
+      </div>
+    </div>
+  </div>
+
+
+</div>
+    {% endblock %}

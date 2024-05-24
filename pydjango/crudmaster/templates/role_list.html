@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block title %}Role List{% endblock title %}
+   
+ 
+ 
+    {% block content %}
+    <div class="container content-wrapper">
+    <div class="tables-data">
+      <div class="row">
+        <div class="col" style="display:flex; justify-content:start;  ">
+          <h2>Role List</h2> </div>
+         <div class="col">
+      <a href=" "   data-bs-toggle="modal" data-bs-target="#add_role"    class="add-button"   data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-plus p-icon"></i> Add Role</a> </div>
+      </div>
+
+    <div class="table-responsive">
+    <table  class="tables table-hover">
+        <thead>
+            <tr style="position:sticky;">
+                <th class="text-center">Role Name</th>
+                 
+                <th  class="text-center">Description</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody id="bodyofrole">
+        
+          
+        </tbody>
+    </table>
+</div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="add_role" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Add Role</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+       
+            <div class="modal-body">
+              <h5  class="msg text-center" id="msg"> </h5>
+                
+                   
+                    <form action="#" method="POST" id="addRoleForm">
+                      <div class="row" style="padding-bottom:10px;">
+                        <div class="col-6 add-form">
+                            <label for="role">Role Name:</label>
+                            <input type="text" id="name" name="name" placeholder="Enter Role Name" class="txtOnly">
+                            <span  class="messages" id="nameMessage"></span> 
+                        </div>
+                        <div class="col-6 add-form">
+                            <label for="description">Description:</label>
+                            <textarea id="description" name="description" placeholder="Enter Description"></textarea>
+                        </div>
+                       
+                      </div>
+                        
+                        <div class="modal-footer" style="justify-content:center;">
+                          <div>
+                            <button type="button" class="btn close-button" data-bs-dismiss="modal">Close</button></div>
+                            <div class="add-form">
+                              <button type="submit" onclick="return add_role();" id="add-role" class="btn ad-bton">Add</button>
+                          </div>
+                          </div>
+                    </form>
+                 
+        </div>
+
+       
+      </div>
+    </div>
+  </div>
+
+
+
+  {% comment %} update page Modal {% endcomment %}
+
+
+  <div class="modal fade" id="update_role" tabindex="-1" aria-labelledby="exampleModalLabe2" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabe2">Update Role</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+       
+            <div class="modal-body">
+              <h5  class="msg text-center" id="msg1"> </h5>
+ 
+                    <form action="#" method="POST" id="updateUserForm">
+                      {% csrf_token %}
+                      <div class="row"  style="padding-bottom:10px;">
+                        <div class="add-form col-6">
+                            <label for="role">Role Name:</label>
+                            <input type="text" id="name1" name="name" placeholder="Enter Role Name" class="txtOnly" >
+                            <span  class="messages" id="nameMessage1"></span> 
+                        </div>
+                        <div class="add-form col-6" >
+                            <label for="description">Description:</label>
+                            <textarea id="description1" name="description" placeholder="Enter Description"></textarea>
+                        </div>
+                      </div>
+                       
+                
+                        
+                        <div class="modal-footer" style="justify-content:center;">
+                            <button type="button" class="btn close-button" data-bs-dismiss="modal">Close</button>
+                            <div class="add-form">
+                              <button type="submit"  onclick="return update_role();" id="update-role-button"  class="btn">Update</button>
+                          </div>
+                          </div>
+                    </form>
+                
+             
+
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+{% comment %} delete modal {% endcomment %}
+ 
+<div class="modal fade" id="delete_role" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+          <div class="modal-body">
+             
+          </p>Are you sure you want to delete this role</p>
+          <div class="modal-footer">
+              <button type="button" class="btn  close-button" data-bs-dismiss="modal">Close</button>
+              <div class="add-form">
+                <button type="submit" class="btn yes-button">Yes</button>
+            </div>
+            </div>
+      </div>
+
+     
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <div style="display:flex; justify-content:end; margin-right:10px; margin-top:10px;">
+                
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+          <div class="modal-body" style="padding:0px 0px 10px 0px;">
+              <p class="text-green text-center" style="font-size:20px;font-wieght:500px;"
+               id="successMessage"></p>
+          </div>
+
+          
+      </div>
+  </div>
+</div>
+    {% endblock %}

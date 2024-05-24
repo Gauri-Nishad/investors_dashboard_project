@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+{% block title %}Transaction Outflow{% endblock title %}
+   
+ 
+ 
+    {% block content %}
+
+    
+   
+         
+    {% csrf_token %}
+    <div class="container content-wrapper">
+        <div class="permission-tables">
+            
+            <div class="row">
+              <div class="col" style="display:flex; justify-content:start;  ">
+                <h2>Cash Outflow Transaction List</h2> </div>
+               <div class="col">
+            <a href=" "   data-bs-toggle="modal" data-bs-target="#cash_out_flow"   class="add-button"   data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-plus p-icon"></i> Add</a> </div>
+            </div>
+
+            <div class="table-responsive">
+            <table class="tables table-hover" >
+                <thead class="headtext1">
+                    <tr>
+                        <th class="text-center" >From Company</th>
+                        <th class="text-center" >To Company</th>
+                        <th class="text-center" >Date</th>
+                        <th class="text-center" >Description</th>
+                        <th class="text-center">Amount</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   {% for outflow in outflow_transactions  %}
+                    <tr>
+                        <td class="text-center">
+                           {{outflow.company}}
+                        </td>
+                        <td class="text-center">
+                           {{outflow.to_company}}
+                        </td>
+                        
+                        <td class="text-center">
+                          {{outflow.date}}
+                         </td>
+                         <td class="text-center">
+                           {{outflow.description}}
+                         </td>
+                         <td class="text-center">
+                           {{outflow.amount}}
+                         </td>
+                        
+                        <td class="text-center">
+                            
+                    
+
+                            {% if outflow.status %}
+                            {{ outflow.status }}
+                            {% else %}
+                            <span class="status-placeholder"></span>
+                            <a href=" " onclick="setOutflowId({{outflow.id}})" data-bs-toggle="modal" data-bs-target="#approve-outflow"       data-toggle="tooltip" data-placement="top"  title="Approve"><i class="fa-solid fa-square-check check-icon "  ></i></a>
+
+
+                            
+                            <a href=" " onclick="setOutflowId({{outflow.id}})"   data-bs-toggle="modal"  data-bs-target="#reject-outflow"    data-toggle="tooltip" data-placement="top" title="Reject"> <i class="fa-solid fa-square-xmark cross-icon"  ></i></a> 
+                            {% endif %}
+                    </td>  
+                    </tr>
+                    {% endfor %}
+                   
+                   
+                </tbody>
+            </table>
+
+            
+        </div>  
+    </div>
+</div>
+
+ 
+<div class="modal fade" id="cash_out_flow" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabe2">Cash Out Flow</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      
+          <div class="modal-body">
+            <h5  class="msg text-center" id="msg"> </h5>
+              <form action="#" method="POST" >
+                  <div class="row">
+                  <div class="add-form col-6">
+                      <label for="">Company:</label>
+                      <select id="company1" name="company"  >
+                          <option >Select Company</option>
+                          {% for company in companies  %}
+                          <option value="{{company.id}}"> {{company.company_name}}</option>
+                          {% endfor %}
+                          
+                      </select>
+                      <span  class="messages" id="companyMessage1"></span> 
+                  </div>
+                 
+                  <div class="add-form col-6">
+                      <label for=" ">To Company:</label>
+                      <select id="company2" name="to_company"  >
+                          <option>Select Company</option>
+                          {% for company in companies  %}
+                          <option value="{{company.id}}">{{company.company_name}}</option>
+                          {% endfor %}
+                           
+                      </select>
+                      <span  class="messages" id="companyMessage2"></span> 
+                  </div>
+                  <div class="add-form col-6">
+                      <label for="date">Date:</label>
+                      <input type="" class="date1" id="datepicker-to" name="date" placeholder="Select Date"  >
+                      <span  class="messages" id="dateMessage1"></span> 
+
+                  </div>
+                     
+                 
+                 
+                  <div class="add-form col-6" style="padding-bottom:10px;">
+                      <label for="amount">Amount:</label>
+                      <input type="number" id="amount1" name="amount" placeholder="Enter Amount">
+                      <span  class="messages" id="amountMessage1"></span> 
+                  </div>
+                  <div class="add-form col">
+                      <label for="role">Description:</label>
+                      <textarea id="description1" name="description" placeholder="Enter reason" ></textarea>
+                      <span  class="messages" id="descriptionMessage1"></span> 
+                  </div>
+                  
+              </div>
+                  
+                  <div class="modal-footer" style="justify-content:center;">
+                      <button type="button" class="btn  close-button" data-bs-dismiss="modal">Close</button>
+                      <div class="add-form">
+                        <button type="submit" onclick="return submitoutflowform();" id="add-cashout" class="btn">Add</button>
+                    </div>
+                    </div>
+              </form>
+         
+      </div>
+
+     
+    </div>
+  </div>
+</div>
+
+
+{% comment %} modal {% endcomment %}
+
+<div class="modal fade" id="approve-outflow" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        
+            <div class="modal-body" style="padding:10px 0px 0px 0px;">
+               
+            <p  style="text-align:center;">Are you sure you want to approve this transaction</p>
+            <div class="modal-footer" style="padding:0px; justify-content:center;"> 
+                <button type="button" class="btn  close-button" data-bs-dismiss="modal">Close</button>
+                <div class="add-form">
+                  <button type="submit" class="btn yes-button" id="approve-outflow">Yes</button>
+              </div>
+              </div>
+        </div>
+
+       
+      </div>
+    </div>
+  </div>
+
+
+
+
+{% comment %} modal {% endcomment %}
+
+<div class="modal fade" id="reject-outflow" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        
+            <div class="modal-body" style="padding:10px 0px 0px 0px;">
+               
+            <p style="text-align:center;">Are you sure you want to Reject this transaction</p>
+            <div  class="modal-footer" style="padding:0px;  justify-content:center">
+                <button type="button" class="btn close-button" data-bs-dismiss="modal">Close</button>
+                <div class="add-form">
+                  <button type="submit" class="btn yes-button" id="reject-outflow">Yes</button>
+              </div>
+              </div>
+        </div>
+
+       
+      </div>
+    </div>
+  </div>
+
+
+  
+  <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div style="display:flex; justify-content:end; margin-right:10px; margin-top:10px;">
+                
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding:0px 0px 10px 0px;">
+                <p class="text-green text-center" style="font-size:20px;font-wieght:500px;"
+                 id="successMessage"></p>
+            </div>
+
+            
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
